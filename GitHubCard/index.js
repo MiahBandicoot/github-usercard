@@ -1,8 +1,10 @@
+import axios from 'axios';
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -28,7 +30,7 @@
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+// const followersArray = [];
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -49,6 +51,66 @@ const followersArray = [];
       </div>
     </div>
 */
+const parent = document.querySelector(".cards")
+function makeCard(info){
+  const div = document.createElement("div")
+  const img = document.createElement("img")
+  const div1 = document.createElement("div")
+  const h3 = document.createElement("h3")
+  const puser = document.createElement("p")
+  const ploc = document.createElement("p")
+  const ppro = document.createElement("p")
+  const a = document.createElement("a")
+  const pfoll = document.createElement("p")
+  const pfolli = document.createElement("p")
+  const pbio = document.createElement("p")
+  img.src = info.avatar_url
+  a.href = info.html_url
+  div.appendChild(img)
+  div.appendChild(div1)
+  div1.appendChild(h3)
+  div1.appendChild(puser)
+  div1.appendChild(ploc)
+  div1.appendChild(ppro)
+  div1.appendChild(pfoll)
+  div1.appendChild(pfolli)
+  div1.appendChild(pbio)
+  div.classList.add("div")
+  div.className = "card"
+  div1.className = "card-info"
+  h3.className = "name"
+  puser.className = "username"
+  h3.textContent = info.name
+  puser.textContent = info.login
+  ploc.textContent = `location: ${info.location}`
+  ppro.textContent = `Profile:`
+  a.textContent = info.html_url
+  pfoll.textContent = `followers: ${info.followers}`
+  pfolli.textContent = `following: ${info.following}`
+  pbio.textContent = `Bio: ${info.bio}` 
+  ppro.appendChild(a)
+return div
+}
+
+const targets = [
+"tetondan",
+"dustinmyers",
+"justsml",
+"luishrd",
+"bigknell",
+"MiahBandicoot",
+]
+targets.forEach((name)=>{
+axios.get(`https://api.github.com/users/${name}`)
+.then(info => {
+const data = makeCard(info.data)
+parent.appendChild(data)
+})
+
+.catch(error => {
+console.log(error)
+})
+})
 
 /*
   List of LS Instructors Github username's:
